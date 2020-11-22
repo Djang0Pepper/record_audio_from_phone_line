@@ -1,12 +1,20 @@
-
 ##------------------------------------------
+##--- Original script from :
 ##--- Author: Pradeep Singh
 ##--- Blog: https://iotbytes.wordpress.com/record-audio-from-phone-line-with-raspberry-pi
 ##--- Date: 25th June 2018
 ##--- Version: 1.0
-##--- Python Ver: 2.7
-##--- Description: This python code will pick an incomming call and record the audio msg.
-##--- Hardware: Raspberry Pi3 and USRobotics USR5637 USB Modem
+##--- Python Ver: 3.7
+##--- Modified by fr3d
+##--- Description:
+##--- 1 pick a list of  incommings calls
+##--- 2 record the audio msg.
+##--- 3 translate to text
+##--- 4 test to database
+##--- 5 database to sms
+##--- 6 database to web
+##--- and the
+##--- Hardware: Raspberry Pi3 and SIM 800 HAT
 ##------------------------------------------
 
 
@@ -48,6 +56,7 @@ audio_file_name = ''
 #=================================================================
 def set_COM_port_settings(com_port):
 	analog_modem.port = com_port
+	#analog_modem.port = '/dev/ttyS0'
 	analog_modem.baudrate = 115200 #57600 #9600 #115200
 	analog_modem.bytesize = serial.EIGHTBITS #number of bits per bytes
 	analog_modem.parity = serial.PARITY_NONE #set parity check: no parity
@@ -65,11 +74,11 @@ def set_COM_port_settings(com_port):
 # Initialize Modem
 #=================================================================
 def detect_COM_port():
-
+#+fred not working ptyhon3
 	# List all the Serial COM Ports on Raspberry Pi
 	#proc = subprocess.Popen(['ls /dev/tty[A-Za-z]*'], shell=True, stdout=subprocess.PIPE)
 	proc = subprocess.Popen(['ls /dev/tty[A-Za-z]*'], shell=True, stdout=subprocess.PIPE)
-	com_ports = proc.communicate()[0]
+	com_ports = str(proc.communicate()[0])
 	com_ports_list = com_ports.split('\n')
 
 	# Find the right port associated with the Voice Modem
